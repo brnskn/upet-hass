@@ -288,18 +288,18 @@ class ApiUnitTests(unittest.TestCase):
     def test_set_record_cat_changes_matched_visit_with_put(self):
         recorder = UrlopenRecorder([self.LOGIN, self.OK])
         with patch.object(api.urllib.request, "urlopen", recorder):
-            self.make_client().set_record_cat(233414265, 13276, replace=True)
+            self.make_client().set_record_cat(1001, 7, replace=True)
         self.assertEqual(recorder.requests[1].selector, "/catbox-server/web/box/cat-record")
         self.assertEqual(recorder.requests[1].get_method(), "PUT")
-        self.assertEqual(recorder.payloads()[1], {"catInfoId": 13276, "recordId": 233414265})
+        self.assertEqual(recorder.payloads()[1], {"catInfoId": 7, "recordId": 1001})
 
     def test_set_record_cat_assigns_unmatched_visit_with_post(self):
         recorder = UrlopenRecorder([self.LOGIN, self.OK])
         with patch.object(api.urllib.request, "urlopen", recorder):
-            self.make_client().set_record_cat(233162503, 13276, replace=False)
+            self.make_client().set_record_cat(1002, 7, replace=False)
         self.assertEqual(recorder.requests[1].selector, "/catbox-server/web/box/cat/record/new")
         self.assertEqual(recorder.requests[1].get_method(), "POST")
-        self.assertEqual(recorder.payloads()[1], {"catInfoId": 13276, "recordId": 233162503})
+        self.assertEqual(recorder.payloads()[1], {"catInfoId": 7, "recordId": 1002})
 
     def test_sign_private_url_uses_file_service(self):
         signed = "https://airpet-private-eu.oss-eu-central-1.aliyuncs.com/pro/cat/1/a.jpeg?Expires=1&Signature=x"
